@@ -1,9 +1,9 @@
 TIMI:	EQU		#FD9F
 JPCODE:	EQU		#C3
-		ORG		#D000
+	ORG		#D000
         ;
 SETHOK:	DI
-		CP		3
+	CP		3
         JR		Z,HOKOFF
         ;
         LD		BC,5
@@ -17,43 +17,43 @@ SETHOK:	DI
         JR		RTN
         ;
 HOKOFF:	LD		BC,5
-		LD		DE,TIMI
+	LD		DE,TIMI
         LD		HL,HKSAVE
         LDIR
         ;
 RTN:	EI
-		RET
+	RET
         ;
 INT:	LD		IX,COUNT
-		DEC		(IX)
+	DEC		(IX)
         JR		NZ,JR1
         LD		A,(IX+1)
         LD		(IX),A
         LD		B,64
         LD		HL,1024
-        CALL	SCROLL
+        CALL		SCROLL
         LD		B,64
         LD		HL,1088
-        CALL	SCROLL
+        CALL		SCROLL
 JR1:	DEC		(IX+2)
-		JR		NZ,JR2
+	JR		NZ,JR2
         LD		A,(IX+3)
         LD		(IX+2),A
         LD		B,64
         LD		HL,1152
-        CALL	SCROLL
+        CALL		SCROLL
 JR2:	DEC		(IX+4)
-		JR		NZ,JR3
+	JR		NZ,JR3
         LD		A,(IX+5)
         LD		(IX+4),A
         LD		B,64
         LD		HL,1216
-        CALL	SCROLL
+        CALL		SCROLL
 JR3:	JP		HKSAVE
-		;
+	;
 SCROLL:	LD		C,#99
-		PUSH	HL
-        PUSH	BC
+	PUSH		HL
+        PUSH		BC
         OUT		(C),L
         OUT		(C),H
         EX		(SP),HL
@@ -64,7 +64,7 @@ SCROLL:	LD		C,#99
         INIR
         ;
         DEC		HL
-        PUSH	HL
+        PUSH		HL
         OR		A
         LD		C,32
         JR		Z,J1
@@ -72,22 +72,22 @@ SCROLL:	LD		C,#99
         SRL		A
         SRL		A
         LD		C,A
-J1:		XOR		A
+J1:	XOR		A
 LOOP2:	LD		B,8
 LOOP:	RRA
-		RL		(HL)
+	RL		(HL)
         DEC		HL
-        DJNZ	LOOP
+        DJNZ		LOOP
         RRA
         DEC		C
         JR		NZ,LOOP2
         POP		HL
         LD		B,8
 LOOP3:	RRA
-		JR		NC,J2
+	JR		NC,J2
         SET		0,(HL)
-J2:		DEC		HL
-		DJNZ	LOOP3
+J2:	DEC		HL
+	DJNZ		LOOP3
         ;
         POP		BC
         POP		HL
@@ -102,6 +102,6 @@ J2:		DEC		HL
         OTIR
         RET
         ;
-HKSAVE:	DEFS	5
-WORK:	DEFS	256
-COUNT:	DEFB	1,1,2,2,3,3
+HKSAVE:	DEFS		5
+WORK:	DEFS		256
+COUNT:	DEFB		1,1,2,2,3,3
